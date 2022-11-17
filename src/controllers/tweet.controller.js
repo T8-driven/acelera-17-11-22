@@ -4,6 +4,8 @@ import {
   tweetsCollection,
 } from "../index.js";
 
+import { ObjectId } from "mongodb";
+
 export async function postTweet(req, res) {
   const { text } = req.body;
   const { authorization } = req.headers;
@@ -14,8 +16,10 @@ export async function postTweet(req, res) {
   }
 
   try {
-    const sessions = sessionsCollection.findOne({ token });
-    const user = usersCollection.findOne({ _id: sessions.userId });
+    const sessions = await sessionsCollection.findOne({ token });
+    const user = await usersCollection.findOne({ _id: sessions.userId });
+
+    console.log(user);
 
     await tweetsCollection.insertOne({ text, userId: user._id });
 
@@ -31,7 +35,7 @@ export async function postTweet(req, res) {
     { headers: { Authorization: "Bearer token" } }
   ); */
 
-export async function getTweet(req, res) {
+export async function getTweets(req, res) {
   const { authorization } = req.headers;
 
   const token = authorization?.replace("Bearer ", "");

@@ -1,7 +1,4 @@
-import {
-  usersCollection,
-  sessionsCollection,
-} from "../index.js";
+import { usersCollection, sessionsCollection } from "../index.js";
 
 import bcrypt from "bcrypt";
 import { v4 as uuidV4 } from "uuid";
@@ -29,7 +26,7 @@ export async function signIn(req, res) {
       return res.sendStatus(401);
     }
 
-    const passwordOk = bcrypt.compare(password, userExists.password);
+    const passwordOk = bcrypt.compareSync(password, userExists.password);
     if (!passwordOk) {
       return res.sendStatus(401);
     }
@@ -41,5 +38,3 @@ export async function signIn(req, res) {
     res.sendStatus(500);
   }
 }
-
-

@@ -6,6 +6,7 @@ import { postTweet, getTweets } from "./controllers/tweet.controller.js";
 
 const app = express();
 dotenv.config();
+app.use(express.json());
 
 const mongoClient = new MongoClient(process.env.MONGO_URI);
 try {
